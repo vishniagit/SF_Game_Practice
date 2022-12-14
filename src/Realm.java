@@ -38,7 +38,7 @@ public class Realm {
                     0,
                     1
             );
-            System.out.printf("Спасти наш мир от драконов вызвался %s! %n", player.getName());
+            System.out.printf("Новый герой %s! %n", player.getName());
             //Menu
             printNavigation();
         }
@@ -47,11 +47,6 @@ public class Realm {
             case "1": {
                 //buy POTION
                 printTrader();
-                command(br.readLine());
-//                buyPotion(money);
-
-                printNavigation();
-
             }
             break;
             case "2": {
@@ -62,7 +57,7 @@ public class Realm {
                 System.exit(1);
                 break;
             case "выход":
-                System.exit(1);
+                command("3");
                 break;
             case "да":
                 command("2");
@@ -71,32 +66,27 @@ public class Realm {
                 printNavigation();
                 command(br.readLine());
             }
+            case "Купить": {
+                Traide();
+            }
+            case "Уйти":{
+                printNavigation();
+            }
         }
         //Снова ждем команды от пользователя
         command(br.readLine());
     }
 
-//    private static void buyPotion(String money) throws IOException {
-//        if ( player.gol== null) {
-//            player = new Hero(
-//                    string,
-//                    100,
-//                    20,
-//                    20,
-//                    0,
-//                    0
-//            );
-//        switch (money) {
-//            case "1": {
-//                System.out.println("Купил зелье");
-//                command(br.readLine());
-//            }
-//            break;
-//            case "2": {
-//                printNavigation();
-//            }
-//        }
-//    }
+    private static void Traide() {
+        if (player.getGold() >= 10) {
+            System.out.println( "-10 золота");
+            player.setGold(-10);
+            System.out.println(traider.sell(Traider.Goods.POTION));
+        } else {
+            System.out.println("У вас не хватает золото");
+        }
+
+    }
 
     private static void commitFight() {
         battle.fight(player, createMonster(), new FightCallback() {
@@ -150,8 +140,12 @@ public class Realm {
         System.out.println("3. Выход");
     }
     private static void printTrader() {
-        System.out.println("1. Купить зелье - 10 золото");
-        System.out.println("2. Уйти");
+        System.out.println("Лечебное зелье (Купить/Уйти)");
+        try {
+            command(br.readLine());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public interface FightCallback {

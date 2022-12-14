@@ -19,10 +19,14 @@ public abstract class Character implements Fighter{
 
     @Override
     public int attack() {
-        if (dext * 3 > getRandomValue())
+        if (dext * 3 > getRandomValue() && getRandomValue() < 80)
             return str;
-        else return 0;
-        //Critical attack logic
+//       Critical attack
+        else if (dext * 6 > getRandomValue() && getRandomValue() >= 80) {
+            System.out.println("Критический удар");
+            return str * 2;
+        }else return 0;
+
     }
 
     public String getName() {
@@ -79,7 +83,7 @@ public abstract class Character implements Fighter{
         this.lvl = lvl;
     }
     public int getRandomValue(){
-        return (int) (Math.random() *100);
+        return (int) (Math.random() * 100);
     }
     @Override
     public String toString(){
